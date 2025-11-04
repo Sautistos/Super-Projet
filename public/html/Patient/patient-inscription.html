@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,15 +117,8 @@
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-title {
@@ -168,9 +160,7 @@
             color: #e74c3c;
         }
 
-        input,
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
@@ -180,9 +170,7 @@
             font-family: inherit;
         }
 
-        input:focus,
-        select:focus,
-        textarea:focus {
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: #52c382;
             box-shadow: 0 0 0 3px rgba(82, 195, 130, 0.1);
@@ -351,7 +339,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
@@ -386,8 +373,7 @@
                     <p class="section-subtitle">Ces informations sont nécessaires pour créer votre dossier</p>
 
                     <div class="warning-box">
-                        ⚠️ <strong>Important :</strong> Votre inscription doit être validée par l'équipe administrative.
-                        Assurez-vous que vos informations sont exactes.
+                        ⚠️ <strong>Important :</strong> Votre inscription doit être validée par l'équipe administrative. Assurez-vous que vos informations sont exactes.
                     </div>
 
                     <div class="form-row">
@@ -433,8 +419,7 @@
                     <p class="section-subtitle">Un code de vérification a été envoyé à votre adresse email</p>
 
                     <div class="info-box">
-                        📧 Veuillez vérifier votre boîte de réception et entrer le code à 6 chiffres reçu. Pensez à
-                        vérifier vos courriers indésirables.
+                        📧 Veuillez vérifier votre boîte de réception et entrer le code à 6 chiffres reçu. Pensez à vérifier vos courriers indésirables.
                     </div>
 
                     <div class="verification-code">
@@ -467,8 +452,7 @@
 
                     <div class="form-group">
                         <label>Mot de passe <span class="required">*</span></label>
-                        <input type="password" name="password" id="password" placeholder="Minimum 8 caractères"
-                            required>
+                        <input type="password" name="password" id="password" placeholder="Minimum 8 caractères" required>
                     </div>
 
                     <div class="form-group">
@@ -486,8 +470,7 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-secondary" onclick="prevStep()">Retour</button>
-                        <button type="button" class="btn btn-primary" id="btnNextPassword"
-                            onclick="validatePasswordAndNext()">Suivant</button>
+                        <button type="button" class="btn btn-primary" id="btnNextPassword" onclick="validatePasswordAndNext()">Suivant</button>
                     </div>
                 </div>
 
@@ -555,14 +538,12 @@
 
                     <div class="form-group">
                         <label>Allergies connues</label>
-                        <textarea name="allergies"
-                            placeholder="Listez vos allergies (médicaments, aliments, etc.) ou indiquez 'Aucune'"></textarea>
+                        <textarea name="allergies" placeholder="Listez vos allergies (médicaments, aliments, etc.) ou indiquez 'Aucune'"></textarea>
                     </div>
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-secondary" onclick="prevStep()">Retour</button>
-                        <button type="submit" class="btn btn-primary" href="patient-login.html">Créer mon
-                            compte</button>
+                        <button type="submit" class="btn btn-primary">Créer mon compte</button>
                     </div>
                 </div>
 
@@ -570,13 +551,11 @@
                 <div class="form-section" data-section="5">
                     <div class="success-box">
                         <h3>✅ Demande d'inscription envoyée !</h3>
-                        <p style="margin: 15px 0;">Votre demande d'inscription a été transmise à l'équipe
-                            administrative. Vous recevrez un email de confirmation une fois votre compte validé.</p>
+                        <p style="margin: 15px 0;">Votre demande d'inscription a été transmise à l'équipe administrative. Vous recevrez un email de confirmation une fois votre compte validé.</p>
                         <p style="font-size: 14px; color: #666; margin-top: 15px;">
                             Cela peut prendre 24 à 48 heures. En cas de question, contactez votre service.
                         </p>
-                        <button type="button" class="btn btn-primary" style="margin-top: 20px;"
-                            onclick="window.location.href='#'">
+                        <button type="button" class="btn btn-primary" style="margin-top: 20px;" onclick="window.location.href='#'">
                             Retour à l'accueil
                         </button>
                     </div>
@@ -592,7 +571,7 @@
             document.querySelectorAll('.progress-step').forEach(step => {
                 const stepNum = parseInt(step.dataset.step);
                 step.classList.remove('active', 'completed');
-
+                
                 if (stepNum === currentStep) {
                     step.classList.add('active');
                 } else if (stepNum < currentStep) {
@@ -603,7 +582,7 @@
             document.querySelectorAll('.form-section').forEach(section => {
                 section.classList.remove('active');
             });
-
+            
             document.querySelector(`[data-section="${currentStep}"]`).classList.add('active');
         }
 
@@ -672,7 +651,7 @@
 
                 errorMessage.textContent = 'Le mot de passe doit contenir ' + errors.join(', ') + '.';
                 errorBox.style.display = 'block';
-
+                
                 passwordInput.classList.add('error');
                 if (!validation.passwordsMatch) {
                     passwordConfirmInput.classList.add('error');
@@ -689,13 +668,13 @@
         // Gestion des codes de vérification
         const codeInputs = document.querySelectorAll('.code-input');
         codeInputs.forEach((input, index) => {
-            input.addEventListener('input', function (e) {
+            input.addEventListener('input', function(e) {
                 if (e.target.value.length === 1 && index < codeInputs.length - 1) {
                     codeInputs[index + 1].focus();
                 }
             });
 
-            input.addEventListener('keydown', function (e) {
+            input.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
                     codeInputs[index - 1].focus();
                 }
@@ -705,10 +684,10 @@
         // Formatage automatique du numéro de sécu
         const numSecuInput = document.querySelector('input[name="num_secu"]');
         if (numSecuInput) {
-            numSecuInput.addEventListener('input', function (e) {
+            numSecuInput.addEventListener('input', function(e) {
                 let value = e.target.value.replace(/\s/g, '');
                 if (value.length > 15) value = value.substr(0, 15);
-
+                
                 let formatted = value.match(/.{1,1}/g);
                 if (formatted) {
                     e.target.value = formatted.join(' ').substr(0, 21);
@@ -717,18 +696,17 @@
         }
 
         // Soumission du formulaire
-        document.getElementById('inscriptionForm').addEventListener('submit', function (e) {
+        document.getElementById('inscriptionForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-
+            
             console.log('Données d\'inscription patient:', data);
-
+            
             currentStep = 5;
             updateProgress();
         });
     </script>
 </body>
-
 </html>
