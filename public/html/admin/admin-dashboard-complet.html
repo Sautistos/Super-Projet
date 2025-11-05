@@ -1,773 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Suivi Greffe Rénale</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f6fa;
-            color: #333;
-        }
-
-        .dashboard {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .logo-icon {
-            font-size: 32px;
-        }
-
-        .logo-text h2 {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .logo-text p {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .nav-menu {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 5px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 15px;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .nav-link .icon {
-            font-size: 18px;
-            width: 20px;
-        }
-
-        .nav-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.2);
-            margin: 15px 0;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 260px;
-            padding: 0;
-        }
-
-        /* Header */
-        .header {
-            background: white;
-            padding: 20px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-left h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .header-left p {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .notification-icon {
-            position: relative;
-            font-size: 24px;
-            color: #666;
-            cursor: pointer;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .user-info h3 {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .user-info p {
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* Content Area */
-        .content {
-            padding: 20px 30px;
-        }
-
-        /* Pages */
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 18px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-info h3 {
-            font-size: 28px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .stat-info p {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .stat-icon {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
-
-        .stat-card.purple .stat-icon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .stat-card.blue .stat-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .stat-card.green .stat-icon {
-            background: linear-gradient(135deg, #52c382 0%, #45b8ac 100%);
-        }
-
-        .stat-card.orange .stat-icon {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-
-        .stat-card.yellow .stat-icon {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-        }
-
-        /* Card */
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-header h2 {
-            font-size: 18px;
-            color: #333;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .tab {
-            padding: 12px 20px;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-size: 14px;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            color: #667eea;
-            border-bottom-color: #667eea;
-        }
-
-        .tab:hover {
-            color: #667eea;
-        }
-
-        .tab-badge {
-            display: inline-block;
-            background: #e74c3c;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            margin-left: 8px;
-            font-weight: bold;
-        }
-
-        /* Table */
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: #f8f9fa;
-        }
-
-        th {
-            padding: 12px;
-            text-align: left;
-            font-size: 13px;
-            font-weight: 600;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
-        }
-
-        tbody tr:hover {
-            background: #f8f9fa;
-        }
-
-        .user-cell {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-avatar-small {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .user-details h4 {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 2px;
-        }
-
-        .user-details p {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .status-active {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-action {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-view {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .btn-view:hover {
-            background: #1976d2;
-            color: white;
-        }
-
-        .btn-edit {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .btn-edit:hover {
-            background: #f57c00;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .btn-delete:hover {
-            background: #c62828;
-            color: white;
-        }
-
-        .btn-validate {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .btn-validate:hover {
-            background: #2e7d32;
-            color: white;
-        }
-
-        /* Activity Log */
-        .activity-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border-left: 3px solid #667eea;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .activity-details {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .activity-time {
-            font-size: 11px;
-            color: #999;
-            margin-top: 4px;
-        }
-
-        /* Two Column */
-        .two-column {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-        }
-
-        /* Search Bar */
-        .search-bar {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-        }
-
-        /* Settings Form */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        /* Log Item */
-        .log-item {
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-        }
-
-        .log-time {
-            color: #666;
-            font-weight: bold;
-        }
-
-        .log-level {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin: 0 8px;
-        }
-
-        .log-level.info {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .log-level.warning {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .log-level.error {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        /* Notification Item */
-        .notification-item {
-            display: flex;
-            gap: 12px;
-            padding: 15px;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            transition: all 0.3s;
-        }
-
-        .notification-item:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .notification-item.unread {
-            background: #f0f7ff;
-            border-left: 4px solid #667eea;
-        }
-
-        /* Charts placeholder */
-        .chart-placeholder {
-            height: 300px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 16px;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            font-size: 22px;
-            color: #333;
-        }
-
-        .modal-close {
-            font-size: 28px;
-            cursor: pointer;
-            color: #666;
-            background: none;
-            border: none;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background: #e0e0e0;
-            color: #666;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        /* Responsive */
-        @media (max-width: 1400px) {
-            .stats-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .two-column {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../style/admin.css">
 </head>
+
 <body>
     <div class="dashboard">
         <!-- Sidebar -->
@@ -811,9 +51,9 @@
                         <span>Questionnaires</span>
                     </a>
                 </li>
-                
+
                 <div class="nav-divider"></div>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" data-page="support">
                         <span class="icon">🎧</span>
@@ -832,9 +72,9 @@
                         <span>Notifications</span>
                     </a>
                 </li>
-                
+
                 <div class="nav-divider"></div>
-                
+
                 <li class="nav-item">
                     <a class="nav-link" data-page="settings">
                         <span class="icon">⚙️</span>
@@ -875,7 +115,7 @@
 
             <!-- Content -->
             <div class="content">
-                
+
                 <!-- PAGE 1: VUE D'ENSEMBLE -->
                 <div id="page-overview" class="page active">
                     <div class="stats-grid">
@@ -954,13 +194,16 @@
                                 <div class="card-header">
                                     <h2>Accès Rapides</h2>
                                 </div>
-                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="navigateTo('pending')">
+                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;"
+                                    onclick="navigateTo('pending')">
                                     ⏳ Valider les comptes (8)
                                 </button>
-                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="navigateTo('support')">
+                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;"
+                                    onclick="navigateTo('support')">
                                     🎧 Support en attente (3)
                                 </button>
-                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;" onclick="navigateTo('users')">
+                                <button class="btn-primary" style="width: 100%; margin-bottom: 10px;"
+                                    onclick="navigateTo('users')">
                                     👥 Gérer les utilisateurs
                                 </button>
                                 <button class="btn-primary" style="width: 100%;" onclick="navigateTo('stats')">
@@ -985,9 +228,12 @@
                         </div>
 
                         <div class="tabs">
-                            <button class="tab active" onclick="filterUsers('all')">Tous <span class="tab-badge">145</span></button>
-                            <button class="tab" onclick="filterUsers('patient')">Patients <span class="tab-badge">100</span></button>
-                            <button class="tab" onclick="filterUsers('medecin')">Médecins <span class="tab-badge">35</span></button>
+                            <button class="tab active" onclick="filterUsers('all')">Tous <span
+                                    class="tab-badge">145</span></button>
+                            <button class="tab" onclick="filterUsers('patient')">Patients <span
+                                    class="tab-badge">100</span></button>
+                            <button class="tab" onclick="filterUsers('medecin')">Médecins <span
+                                    class="tab-badge">35</span></button>
                         </div>
 
                         <div class="table-container">
@@ -1017,9 +263,12 @@
                                         <td><span class="status-badge status-active">Actif</span></td>
                                         <td>
                                             <div class="action-buttons">
-                                                <button class="btn-action btn-view" onclick="viewUser('Sophie Martin')">👁️</button>
-                                                <button class="btn-action btn-edit" onclick="editUser('Sophie Martin')">✏️</button>
-                                                <button class="btn-action btn-delete" onclick="deleteUser(this)">🗑️</button>
+                                                <button class="btn-action btn-view"
+                                                    onclick="viewUser('Sophie Martin')">👁️</button>
+                                                <button class="btn-action btn-edit"
+                                                    onclick="editUser('Sophie Martin')">✏️</button>
+                                                <button class="btn-action btn-delete"
+                                                    onclick="deleteUser(this)">🗑️</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -1038,9 +287,12 @@
                                         <td><span class="status-badge status-active">Actif</span></td>
                                         <td>
                                             <div class="action-buttons">
-                                                <button class="btn-action btn-view" onclick="viewUser('Dr. Jean Dubois')">👁️</button>
-                                                <button class="btn-action btn-edit" onclick="editUser('Dr. Jean Dubois')">✏️</button>
-                                                <button class="btn-action btn-delete" onclick="deleteUser(this)">🗑️</button>
+                                                <button class="btn-action btn-view"
+                                                    onclick="viewUser('Dr. Jean Dubois')">👁️</button>
+                                                <button class="btn-action btn-edit"
+                                                    onclick="editUser('Dr. Jean Dubois')">✏️</button>
+                                                <button class="btn-action btn-delete"
+                                                    onclick="deleteUser(this)">🗑️</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -1084,9 +336,13 @@
                                         <td><span class="status-badge status-active">✓ Complet</span></td>
                                         <td>
                                             <div class="action-buttons">
-                                                <button class="btn-action btn-view" onclick="viewUser('Marie Lefebvre')">👁️</button>
-                                                <button class="btn-action btn-validate" onclick="validatePendingUser(this, 'Marie Lefebvre', 'marie.lefebvre@email.fr')">✓ Valider</button>
-                                                <button class="btn-action btn-delete" onclick="rejectUser(this, 'Marie Lefebvre')">✗ Refuser</button>
+                                                <button class="btn-action btn-view"
+                                                    onclick="viewUser('Marie Lefebvre')">👁️</button>
+                                                <button class="btn-action btn-validate"
+                                                    onclick="validatePendingUser(this, 'Marie Lefebvre', 'marie.lefebvre@email.fr')">✓
+                                                    Valider</button>
+                                                <button class="btn-action btn-delete"
+                                                    onclick="rejectUser(this, 'Marie Lefebvre')">✗ Refuser</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -1105,9 +361,13 @@
                                         <td><span class="status-badge status-active">✓ Complet</span></td>
                                         <td>
                                             <div class="action-buttons">
-                                                <button class="btn-action btn-view" onclick="viewUser('Dr. Pierre Durand')">👁️</button>
-                                                <button class="btn-action btn-validate" onclick="validatePendingUser(this, 'Dr. Pierre Durand', 'p.durand@hopital.fr')">✓ Valider</button>
-                                                <button class="btn-action btn-delete" onclick="rejectUser(this, 'Dr. Pierre Durand')">✗ Refuser</button>
+                                                <button class="btn-action btn-view"
+                                                    onclick="viewUser('Dr. Pierre Durand')">👁️</button>
+                                                <button class="btn-action btn-validate"
+                                                    onclick="validatePendingUser(this, 'Dr. Pierre Durand', 'p.durand@hopital.fr')">✓
+                                                    Valider</button>
+                                                <button class="btn-action btn-delete"
+                                                    onclick="rejectUser(this, 'Dr. Pierre Durand')">✗ Refuser</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -1238,13 +498,15 @@
 
                         <div class="tabs">
                             <button class="tab active">Tous <span class="tab-badge">25</span></button>
-                            <button class="tab">Urgents <span class="tab-badge" style="background: #e74c3c;">3</span></button>
+                            <button class="tab">Urgents <span class="tab-badge"
+                                    style="background: #e74c3c;">3</span></button>
                             <button class="tab">En cours <span class="tab-badge">12</span></button>
                             <button class="tab">Résolus <span class="tab-badge">10</span></button>
                         </div>
 
                         <div class="activity-item" style="border-left-color: #e74c3c;">
-                            <div class="activity-icon" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔴</div>
+                            <div class="activity-icon"
+                                style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">🔴</div>
                             <div class="activity-content">
                                 <div class="activity-title">Urgent - Bug connexion</div>
                                 <div class="activity-details">Patient ne peut pas se connecter depuis ce matin</div>
@@ -1253,7 +515,8 @@
                         </div>
 
                         <div class="activity-item" style="border-left-color: #f39c12;">
-                            <div class="activity-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">🟡</div>
+                            <div class="activity-icon"
+                                style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">🟡</div>
                             <div class="activity-content">
                                 <div class="activity-title">Question médecin</div>
                                 <div class="activity-details">Comment exporter les données des patients ?</div>
@@ -1262,7 +525,8 @@
                         </div>
 
                         <div class="activity-item" style="border-left-color: #27ae60;">
-                            <div class="activity-icon" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">🟢</div>
+                            <div class="activity-icon"
+                                style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">🟢</div>
                             <div class="activity-content">
                                 <div class="activity-title">Ticket résolu</div>
                                 <div class="activity-details">Problème mot de passe oublié résolu</div>
@@ -1485,7 +749,8 @@
                 </div>
 
                 <div style="display: flex; gap: 10px; margin-top: 25px;">
-                    <button type="button" class="btn-secondary" onclick="closeCreateUserModal()" style="flex: 1;">Annuler</button>
+                    <button type="button" class="btn-secondary" onclick="closeCreateUserModal()"
+                        style="flex: 1;">Annuler</button>
                     <button type="submit" class="btn-primary" style="flex: 1;">Créer le compte</button>
                 </div>
             </form>
@@ -1497,14 +762,14 @@
         function navigateTo(page) {
             // Hide all pages
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            
+
             // Show selected page
             document.getElementById('page-' + page).classList.add('active');
-            
+
             // Update active nav link
             document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
             document.querySelector(`[data-page="${page}"]`).classList.add('active');
-            
+
             // Update page title
             const titles = {
                 'overview': ['Tableau de bord Administrateur', 'Gestion de la plateforme de suivi post-greffe'],
@@ -1517,26 +782,26 @@
                 'notifications': ['Notifications', 'Centre de notifications administrateur'],
                 'settings': ['Paramètres Système', 'Configuration de la plateforme']
             };
-            
+
             document.getElementById('pageTitle').textContent = titles[page][0];
             document.getElementById('pageSubtitle').textContent = titles[page][1];
-            
+
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         // Initialize navigation
         document.querySelectorAll('.nav-link[data-page]').forEach(link => {
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
                 const page = this.getAttribute('data-page');
                 navigateTo(page);
             });
         });
-        
+
         // Set initial page
         navigateTo('overview');
-        
+
         // Filter users table
         function filterUsers(type) {
             const rows = document.querySelectorAll('#page-users tbody tr');
@@ -1547,12 +812,12 @@
                     row.style.display = 'none';
                 }
             });
-            
+
             // Update active tab
             event.target.parentElement.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             event.target.classList.add('active');
         }
-        
+
         // Logout function
         function logout() {
             if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
@@ -1574,19 +839,19 @@
         // Create user function
         function createUser(event) {
             event.preventDefault();
-            
+
             const userType = document.getElementById('userType').value;
             const nom = document.getElementById('userNom').value;
             const prenom = document.getElementById('userPrenom').value;
             const email = document.getElementById('userEmail').value;
             const sendCredentials = document.getElementById('sendCredentials').checked;
-            
+
             const message = `Utilisateur créé avec succès !\n\n` +
-                          `Type: ${userType === 'patient' ? 'Patient' : 'Médecin'}\n` +
-                          `Nom: ${nom} ${prenom}\n` +
-                          `Email: ${email}\n\n` +
-                          (sendCredentials ? '✉️ Les identifiants ont été envoyés par email.' : '📋 Les identifiants doivent être communiqués manuellement.');
-            
+                `Type: ${userType === 'patient' ? 'Patient' : 'Médecin'}\n` +
+                `Nom: ${nom} ${prenom}\n` +
+                `Email: ${email}\n\n` +
+                (sendCredentials ? '✉️ Les identifiants ont été envoyés par email.' : '📋 Les identifiants doivent être communiqués manuellement.');
+
             alert(message);
             closeCreateUserModal();
         }
@@ -1605,7 +870,7 @@
         function deleteUser(button) {
             const row = button.closest('tr');
             const name = row.querySelector('.user-details h4').textContent;
-            
+
             if (confirm(`Êtes-vous sûr de vouloir supprimer le compte de ${name} ?\n\nCette action est irréversible.`)) {
                 alert(`Compte de ${name} supprimé avec succès.`);
                 row.remove();
@@ -1616,10 +881,10 @@
         function validatePendingUser(button, name, email) {
             if (confirm(`Valider le compte de ${name} ?\n\nLe compte sera activé et les identifiants seront envoyés par email à ${email}`)) {
                 alert(`✓ Compte validé avec succès !\n\n` +
-                      `Utilisateur: ${name}\n` +
-                      `Email: ${email}\n\n` +
-                      `✉️ Un email contenant les identifiants de connexion a été automatiquement envoyé.`);
-                
+                    `Utilisateur: ${name}\n` +
+                    `Email: ${email}\n\n` +
+                    `✉️ Un email contenant les identifiants de connexion a été automatiquement envoyé.`);
+
                 // Remove row from pending table
                 button.closest('tr').remove();
             }
@@ -1634,4 +899,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Résultats - Suivi Greffe Rénale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f6fa;
+            color: #333;
+        }
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, #52c382 0%, #45b8ac 100%);
+            color: white;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .logo-text h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link .icon {
+            font-size: 18px;
+            width: 20px;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px 0;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 0;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .content {
+            padding: 20px 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .alert-banner {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8d7da;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .alert-banner.warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .alert-icon {
+            font-size: 32px;
+        }
+
+        .alert-text h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .alert-text p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .result-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card.danger {
+            border-left: 4px solid #e74c3c;
+            background: #fff5f5;
+        }
+
+        .result-card.warning {
+            border-left: 4px solid #ffc107;
+            background: #fffef5;
+        }
+
+        .result-card.success {
+            border-left: 4px solid #52c382;
+            background: #f5fff9;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .result-title h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .result-title p {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .result-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .status-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .status-success {
+            background: #52c382;
+            color: white;
+        }
+
+        .result-value {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .value-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .value-unit {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .result-range {
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .range-label {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .range-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding-left: 10px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -24px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #52c382;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #52c382;
+        }
+
+        .timeline-date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .timeline-content h4 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .chart-placeholder {
+            height: 250px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🫘</div>
+                <div class="logo-text">
+                    <h2>Espace Patient</h2>
+                    <p>Suivi Greffe Rénale</p>
+                </div>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="patient-dashboard.html" class="nav-link">
+                        <span class="icon">📊</span>
+                        <span>Tableau de bord</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="treatment.html" class="nav-link">
+                        <span class="icon">💊</span>
+                        <span>Mon traitement</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="questionnaire.html" class="nav-link">
+                        <span class="icon">📋</span>
+                        <span>Questionnaires</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="resultat.html" class="nav-link active">
+                        <span class="icon">📈</span>
+                        <span>Mes résultats</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="rendez-vous.html" class="nav-link">
+                        <span class="icon">📅</span>
+                        <span>Mes rendez-vous</span>
+                    </a>
+                </li>
+
+                <div class="nav-divider"></div>
+
+                <li class="nav-item">
+                    <a href="messagerie.html" class="nav-link">
+                        <span class="icon">💬</span>
+                        <span>Messagerie</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="document.html" class="nav-link">
+                        <span class="icon">📚</span>
+                        <span>Documents</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="icon">❓</span>
+                        <span>Aide & FAQ</span>
+                    </a>
+                </li>
+
+                <div class="nav-divider"></div>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="icon">⚙️</span>
+                        <span>Paramètres</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="patient-login.html" class="nav-link">
+                        <span class="icon">🚪</span>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <h1>Mes Résultats</h1>
+                    <p>Consultez vos analyses et bilans médicaux</p>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="alert-banner">
+                    <span class="alert-icon">🔴</span>
+                    <div class="alert-text">
+                        <h3>Attention : Créatinine élevée</h3>
+                        <p>Votre dernier taux de créatinine (245 mg/L) est au-dessus de la normale. Votre médecin a été
+                            informé.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Dernier Bilan - 12 Octobre 2025</h2>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card danger">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Créatinine</h3>
+                                    <p>Fonction rénale</p>
+                                </div>
+                                <span class="result-status status-danger">Élevé</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">245</span>
+                                <span class="value-unit">mg/L</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Normale :</div>
+                                <div class="range-value">80 - 120 mg/L</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card success">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Tacrolimus</h3>
+                                    <p>Taux sanguin</p>
+                                </div>
+                                <span class="result-status status-success">Normal</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">8.2</span>
+                                <span class="value-unit">ng/mL</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Cible :</div>
+                                <div class="range-value">6 - 10 ng/mL</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card success">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Globules blancs</h3>
+                                    <p>Immunité</p>
+                                </div>
+                                <span class="result-status status-success">Normal</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">6.8</span>
+                                <span class="value-unit">G/L</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Normale :</div>
+                                <div class="range-value">4 - 10 G/L</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card warning">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Potassium</h3>
+                                    <p>Électrolytes</p>
+                                </div>
+                                <span class="result-status status-warning">Limite</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">5.2</span>
+                                <span class="value-unit">mmol/L</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Normale :</div>
+                                <div class="range-value">3.5 - 5.0 mmol/L</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card success">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Hémoglobine</h3>
+                                    <p>Anémie</p>
+                                </div>
+                                <span class="result-status status-success">Normal</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">13.5</span>
+                                <span class="value-unit">g/dL</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Normale :</div>
+                                <div class="range-value">12 - 16 g/dL</div>
+                            </div>
+                        </div>
+
+                        <div class="result-card success">
+                            <div class="result-header">
+                                <div class="result-title">
+                                    <h3>Plaquettes</h3>
+                                    <p>Coagulation</p>
+                                </div>
+                                <span class="result-status status-success">Normal</span>
+                            </div>
+                            <div class="result-value">
+                                <span class="value-number">225</span>
+                                <span class="value-unit">G/L</span>
+                            </div>
+                            <div class="result-range">
+                                <div class="range-label">Normale :</div>
+                                <div class="range-value">150 - 400 G/L</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Évolution de la Créatinine</h2>
+                    </div>
+                    <div class="chart-placeholder">
+                        📈 Graphique d'évolution de la créatinine (6 derniers mois)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Historique des Bilans</h2>
+                    </div>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">12 Octobre 2025</div>
+                            <div class="timeline-content">
+                                <h4>Bilan sanguin complet</h4>
+                                <p>Créatinine élevée détectée. Fonction rénale à surveiller.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">28 Septembre 2025</div>
+                            <div class="timeline-content">
+                                <h4>Bilan de routine</h4>
+                                <p>Tous les résultats dans les normes. Bon suivi du traitement.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">15 Septembre 2025</div>
+                            <div class="timeline-content">
+                                <h4>Dosage immunosuppresseurs</h4>
+                                <p>Taux de tacrolimus optimal. Pas d'ajustement nécessaire.</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date">1 Septembre 2025</div>
+                            <div class="timeline-content">
+                                <h4>Bilan post-greffe M6</h4>
+                                <p>Excellente fonction du greffon. Suivi standard maintenu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
