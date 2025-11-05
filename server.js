@@ -38,8 +38,7 @@ app.post('/api/medecin/login', (req, res) => {
 });
 
 app.post('/api/patient/login', (req, res) => {
-  const { email } = req.body;
-  res.json({ success: true, role: 'patient', email: email || null });
+    res.redirect('/patient');
 });
 
 app.post('/api/medecin/register', (req, res) => {
