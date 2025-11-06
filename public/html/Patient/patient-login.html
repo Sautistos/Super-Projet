@@ -234,13 +234,13 @@
                     <label>
                         <input type="checkbox" name="remember"> Se souvenir de moi
                     </label>
-                    <a href="../mot-de-passe-oublie.html">Mot de passe oublié ?</a>
+                    <a href="mdp_oubli">Mot de passe oublié ?</a>
                 </div>
 
                 <button type="submit" class="btn-login">Se connecter</button>
 
                 <div class="help-text">
-                    Première connexion ? <a href="#">Contactez votre infirmier</a>
+                    Première connexion ? <a href="contact">Contactez votre infirmier</a>
                 </div>
 
                 <div class="info-box">
@@ -250,31 +250,6 @@
             </form>
         </div>
     </div>
-
-    <script>
-        document.getElementById('patientLoginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const formData = {
-                email: document.getElementById('email').value,
-                numSecu: document.getElementById('numSecu').value,
-                password: document.getElementById('password').value
-            };
-
-            console.log('Tentative de connexion Patient:', formData);
-            alert('Connexion réussie ! Redirection vers votre tableau de bord...');
-        });
-
-        document.getElementById('numSecu').addEventListener('input', function (e) {
-            let value = e.target.value.replace(/\s/g, '');
-            if (value.length > 15) value = value.substr(0, 15);
-
-            let formatted = value.match(/.{1,1}/g);
-            if (formatted) {
-                e.target.value = formatted.join(' ').substr(0, 21);
-            }
-        });
-    </script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Dossier contenant vos pages HTML
-const publicDir = path.join(__dirname, 'Pages site web');
+const publicDir = path.join(__dirname, 'public/html/');
 
 // Middleware
 app.use(express.json());
@@ -14,16 +14,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(publicDir));
 
 // Routes explicites vers chaque page (facultatif mais explicite)
-app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'patient-login.html')));
+app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(publicDir, 'admin-dashboard-complet.html')));
 app.get('/admin/login', (req, res) => res.sendFile(path.join(publicDir, 'admin-login.html')));
-app.get('/medecin', (req, res) => res.sendFile(path.join(publicDir, 'medecin-dashboard-complet.html')));
+app.get('/medecin/dashboard', (req, res) => res.sendFile(path.join(publicDir, 'medecin-dashboard-complet.html')));
 app.get('/medecin/inscription', (req, res) => res.sendFile(path.join(publicDir, 'medecin-inscription.html')));
-app.get('/medecin/login', (req, res) => res.sendFile(path.join(publicDir, 'medecin-login.html')));
-app.get('/patient', (req, res) => res.sendFile(path.join(publicDir, 'patient-dashboard.html')));
-app.get('/patient/inscription', (req, res) => res.sendFile(path.join(publicDir, 'patient-inscription.html')));
-app.get('/patient/login', (req, res) => res.sendFile(path.join(publicDir, 'patient-login.html')));
-app.get('/mot-de-passe-oublie', (req, res) => res.sendFile(path.join(publicDir, 'mot-de-passe-oublie.html')));
+app.get('/medecin/login', (req, res) => res.sendFile(path.join(publicDir, 'medecin/medecin-login.html')));
+app.get('/patient/dashboard', (req, res) => res.sendFile(path.join(publicDir, '/patient/patient-dashboard.html')));
+app.get('/patient/inscription', (req, res) => res.sendFile(path.join(publicDir, '/patient/patient-inscription.html')));
+app.get('/patient/login', (req, res) => res.sendFile(path.join(publicDir, '/patient/patient-login.html')));
+app.get('/patient/mdp_oubli', (req, res) => res.sendFile(path.join(publicDir, 'mot-de-passe-oublie.html')));
+app.get('/patient/contact', (req, res) => res.sendFile(path.join(publicDir, 'contact-infirmier.html')));
 
 // API simple
 app.get('/api/health', (req, res) => {
@@ -37,9 +38,7 @@ app.post('/api/medecin/login', (req, res) => {
   res.json({ success: true, role: 'medecin', email: email || null });
 });
 
-app.post('/api/patient/login', (req, res) => {
-    res.redirect('/patient');
-});
+
 
 app.post('/api/medecin/register', (req, res) => {
   // Placeholder: valider et créer medecin
