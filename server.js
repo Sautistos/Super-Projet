@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(publicDir));
 
 // Routes explicites vers chaque page (facultatif mais explicite)
-app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'patient-login.html')));
+app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'public/index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(publicDir, 'admin-dashboard-complet.html')));
 app.get('/admin/login', (req, res) => res.sendFile(path.join(publicDir, 'admin-login.html')));
 app.get('/medecin', (req, res) => res.sendFile(path.join(publicDir, 'medecin-dashboard-complet.html')));
