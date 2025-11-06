@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 // Dossier contenant vos pages HTML
 const publicDir = path.join(__dirname, 'public/html/');
 
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(publicDir));
 
 // Routes explicites vers chaque page (facultatif mais explicite)
+
 app.get('/', (req, res) => res.sendFile(path.join(publicDir, 'index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(publicDir, 'admin-dashboard-complet.html')));
 app.get('/admin/login', (req, res) => res.sendFile(path.join(publicDir, 'admin-login.html')));
@@ -26,6 +28,7 @@ app.get('/patient/login', (req, res) => res.sendFile(path.join(publicDir, '/pati
 app.get('/patient/mdp_oubli', (req, res) => res.sendFile(path.join(publicDir, 'mot-de-passe-oublie.html')));
 app.get('/patient/contact', (req, res) => res.sendFile(path.join(publicDir, 'contact-infirmier.html')));
 
+
 // API simple
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', time: new Date().toISOString() });
@@ -37,7 +40,6 @@ app.post('/api/medecin/login', (req, res) => {
   // Ici vous ajouterez la logique réelle d'authentification
   res.json({ success: true, role: 'medecin', email: email || null });
 });
-
 
 
 app.post('/api/medecin/register', (req, res) => {
