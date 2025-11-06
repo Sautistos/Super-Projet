@@ -30,8 +30,8 @@ app.get('/patient/treatment', (req, res) => res.sendFile(path.join(publicDir, '/
 app.get('/patient/document', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/document.html')));
 app.get('/patient/messagerie', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/messagerie.html')));
 app.get('/patient/questionnaire', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/questionnaire.html')));
-app.get('/patient/rendez-vous.html', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/rendez-vous.html')));
-app.get('/patient/resultat.html', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/resultat.html')));
+app.get('/patient/rendez-vous', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/rendez-vous.html')));
+app.get('/patient/resultat', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/resultat.html')));
 
 
 // Routes API
@@ -44,7 +44,7 @@ app.use('/api/auth', authRoutes);
 // 404 fallback
 app.use((req, res) => {
   if (req.accepts('html')) {
-    return res.status(404).sendFile(path.join(publicDir, '/html/patient-login.html'));
+    return res.status(404).sendFile(path.join(publicDir, '/html/error404.html'));
   }
   res.status(404).json({ error: 'Not found' });
 });
