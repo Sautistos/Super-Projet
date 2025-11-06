@@ -4,9 +4,13 @@
   "description": "Serveur Express pour servir les pages HTML du projet Super-Projet",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

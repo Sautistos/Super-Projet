@@ -212,8 +212,7 @@
         <div class="right-section">
             <h2>Connexion Patient</h2>
             <p class="subtitle">Bienvenue sur votre espace de suivi</p>
-
-            <form id="patientLoginForm">
+            <form id="patientLoginForm"  method="POST"> <!--action="/api/auth/patient/login"-->
                 <div class="form-group">
                     <label for="email">Adresse Email *</label>
                     <input type="email" id="email" name="email" placeholder="votre.email@exemple.fr" required>
@@ -236,7 +235,7 @@
                     </label>
                     <a href="mdp_oubli">Mot de passe oublié ?</a>
                 </div>
-
+                <a href="/patient/dashboard" >dashboard tempo</a> <!--get nav to dashboard-->
                 <button type="submit" class="btn-login">Se connecter</button>
 
                 <div class="help-text">
