@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes HTML
 app.get('/', (req, res) => res.sendFile(path.join(publicDir, '/html/index.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(publicDir, '/html/admin-dashboard-complet.html')));
-app.get('/admin/login', (req, res) => res.sendFile(path.join(publicDir, '/html/admin-login.html')));
-app.get('/medecin/dashboard', (req, res) => res.sendFile(path.join(publicDir, '/html/medecin-dashboard-complet.html')));
+app.get('/admin', (req, res) => res.sendFile(path.join(publicDir, '/html/admin/admin-dashboard-complet.html')));
+app.get('/admin/login', (req, res) => res.sendFile(path.join(publicDir, '/html/admin/admin-login.html')));
+app.get('/medecin/dashboard', (req, res) => res.sendFile(path.join(publicDir, '/html/medecin/medecin-dashboard-complet.html')));
 app.get('/medecin/login', (req, res) => res.sendFile(path.join(publicDir, '/html/medecin/medecin-login.html')));
 app.get('/patient/dashboard', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/patient-dashboard.html')));
 app.get('/patient/login', (req, res) => res.sendFile(path.join(publicDir, '/html/patient/patient-login.html')));
