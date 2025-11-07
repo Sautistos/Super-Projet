@@ -1,3 +1,5 @@
+//running ther server with this command: npm run dev
+
 const path = require('path');
 const express = require('express');
 const app = express();
